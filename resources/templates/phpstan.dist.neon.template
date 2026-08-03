@@ -1,0 +1,7 @@
+includes:
+    - vendor/{{PACKAGE_NAME}}/resources/presets/phpstan/{{FRAMEWORK}}.neon
+
+parameters:
+    tmpDir: {{CACHE_FILE}}
+    paths:
+{{PATHS}}

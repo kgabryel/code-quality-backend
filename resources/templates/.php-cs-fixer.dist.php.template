@@ -1,0 +1,18 @@
+<?php
+
+declare(strict_types=1);
+
+use {{PRESET_CLASS}} as Preset;
+
+$finder = new PhpCsFixer\Finder()
+    ->in([
+        ...Preset::getPaths(__DIR__),
+    ]);
+
+return new PhpCsFixer\Config()
+    ->setRiskyAllowed(Preset::isRiskyAllowed())
+    ->setRules([
+        ...Preset::getSets(),
+    ])
+    ->setFinder($finder)
+    ->setCacheFile(__DIR__ . '/{{CACHE_PATH}}');

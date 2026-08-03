@@ -1,0 +1,63 @@
+#!/usr/bin/env php
+<?php
+
+use Kgabryel\CodeQuality\Installer\Cli\CommandFactory;
+use Kgabryel\CodeQuality\Installer\Cli\ProjectRoot;
+use Kgabryel\CodeQuality\Installer\CommandError;
+use Kgabryel\CodeQuality\Installer\ConfigGenerator\ConfigWriter;
+use Kgabryel\CodeQuality\Installer\Enum\CommandName;
+use Kgabryel\CodeQuality\Installer\Enum\Text\Message;
+use Kgabryel\CodeQuality\Installer\Filesystem;
+use Kgabryel\CodeQuality\Installer\FileWriter;
+
+use Kgabryel\CodeQuality\Installer\ProcessRunner;
+
+use function Laravel\Prompts\error;
+
+(static function (): void {
+    $autoload = $GLOBALS['_composer_autoload_path'] ?? '';
+
+    if ($autoload) {
+        require_once $autoload;
+
+        return;
+    }
+
+    $autoloadFiles = [
+        __DIR__ . '/../vendor/autoload.php',
+        __DIR__ . '/../../../autoload.php'
+    ];
+
+    foreach ($autoloadFiles as $autoloadFile) {
+        if (file_exists($autoloadFile)) {
+            require_once $autoloadFile;
+            return;
+        }
+    }
+
+    throw new RuntimeException('Unable to find the Composer autoloader.');
+})();
+
+$commandName = CommandName::tryFrom($argv[1] ?? '');
+
+if ($commandName === null) {
+    error(Message::InvalidCommand->value);
+    exit(1);
+}
+
+try {
+    $filesystem = new Filesystem();
+
+    $commandFactory = new CommandFactory($filesystem, new ProcessRunner());
+    $commandFactory->create(
+            $commandName,
+            new FileWriter($filesystem, new ProjectRoot($filesystem)->resolve()), new ConfigWriter(),
+    )->run();
+} catch (CommandError $e) {
+    error($e->getMessage());
+    exit(1);
+} catch (Throwable $e) {
+    error(sprintf(Message::UnexpectedError->value, $e->getMessage()));
+    exit(1);
+}
+

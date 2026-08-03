@@ -1,0 +1,27 @@
+<?php
+
+declare(strict_types=1);
+
+use {{PRESET_CLASS}} as Preset;
+use Rector\Config\RectorConfig;
+use Rector\Set\ValueObject\SetList;
+
+return RectorConfig::configure()
+    ->withPaths([
+        ...Preset::getPaths(__DIR__),
+    ])
+    ->withImportNames()
+    ->withPhpSets({{PHP_VERSION}}: true)
+    ->withSets([
+        ...Preset::getSets(),
+    ])
+    ->withComposerBased(
+        ...Preset::getComposerBased(),
+    )
+    ->withAttributesSets(
+        ...Preset::getAttributesSets(),
+    )
+    ->withCache(__DIR__ . '/{{CACHE_PATH}}')
+    ->withSkip([
+        ...Preset::getsSkip(),
+    ]);

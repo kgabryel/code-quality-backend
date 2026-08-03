@@ -1,0 +1,26 @@
+{
+  "$schema": "vendor/infection/infection/resources/schema.json",
+  "tmpDir": "{{CACHE_PATH}}",
+  "source": {
+    "directories": [
+{{PATHS}}
+    ],
+    "excludes": [
+{{EXCLUDES}}
+    ]
+  },
+  "logs": {
+    "text": "{{CACHE_PATH}}infection.txt",
+    "html": "{{CACHE_PATH}}infection.html"
+  },
+  "mutators": {
+    "@default": true,
+    "CastInt": false,
+    "CastString": false,
+    "MethodCallRemoval": {
+      "ignore": [
+{{IGNORED_CALLS}}
+      ]
+    }
+  }
+}

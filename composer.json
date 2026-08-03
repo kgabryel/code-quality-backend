@@ -1,0 +1,30 @@
+{
+  "name": "kgabryel/code-quality",
+  "description": "Współdzielona konfiguracja dla narzędzi do utrzymania jakości kodu",
+  "version": "1.0.0",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Kgabryel\\CodeQuality\\": "src/"
+    }
+  },
+  "bin": ["bin/code-quality"],
+  "require": {
+    "php": ">=8.4",
+    "laravel/prompts": "^0.3.21",
+    "composer-runtime-api": "*"
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "require-dev": {
+    "phpunit/phpunit": "^13.2",
+    "mockery/mockery": "^1.6"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Kgabryel\\CodeQuality\\Tests\\": "tests/",
+      "Kgabryel\\CodeQuality\\Tests\\Unit\\": "tests/unit/"
+    }
+  }
+}
