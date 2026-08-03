@@ -67,6 +67,17 @@ readonly class BaseConfig
             'strict_comparison' => true,
             'strict_param' => true,
             'yoda_style' => false,
+            'class_attributes_separation' => [
+                'elements' => [
+                    'property' => 'only_if_meta',
+                    'const' => 'none',
+                ],
+            ],
+            'method_argument_space' => [
+                'on_multiline' => 'ensure_fully_multiline',
+                'attribute_placement' => 'same_line',
+            ],
+            'php_unit_test_class_requires_covers' => false,
         ];
     }
 

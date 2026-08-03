@@ -18,6 +18,9 @@ return RectorConfig::configure()
     ->withComposerBased(
         ...Preset::getComposerBased(),
     )
+    ->withRules([
+        ...Preset::getRules(),
+    ])
     ->withAttributesSets(
         ...Preset::getAttributesSets(),
     )
