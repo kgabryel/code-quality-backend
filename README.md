@@ -358,15 +358,20 @@ return new PhpCsFixer\Config()
 |------------------------------------------|---------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `@PhpCsFixer`                            | `true`                                      | Preset - pełny, restrykcyjny zestaw reguł projektu PHP CS Fixer                                                                                                                            |
 | `braces_position`                        | `next_line_unless_newline_at_signature_end` | Klamra otwierająca klas i funkcji w nowej linii (poza sygnaturami wieloliniowymi)                                                                                                          |
+| `class_attributes_separation`            | custom                                      | Brak pustych linii między stałymi; pusta linia między właściwościami tylko gdy mają atrybut lub PHPDoc (`only_if_meta`)                                                                    |
 | `concat_space`                           | `'one'`                                     | Spacje wokół operatora konkatenacji: `$a . $b`                                                                                                                                             |
 | `declare_strict_types`                   | `true`                                      | Wymaga `declare(strict_types=1)` na początku każdego pliku                                                                                                                                 |
 | `global_namespace_import`                | `import_classes`                            | Klasy z globalnej przestrzeni nazw importowane przez `use` zamiast prefiksu `\`                                                                                                            |
+| `method_argument_space`                  | custom                                      | Wieloliniowe wywołania i sygnatury rozbijane po jednym argumencie na linię (`ensure_fully_multiline`), atrybuty parametrów w tej samej linii (`same_line`)                                  |
 | `multiline_whitespace_before_semicolons` | `no_multi_line`                             | Średnik zawsze na tej samej linii co ostatni token (bez multiline whitespace)                                                                                                              |
 | `ordered_attributes`                     | custom                                      | Atrybuty PHPUnit w ustalonej kolejności: `Small` → `Medium` → `Large` → `CoversClass` → `Test` → `TestDox` → `DataProvider` → `DataProviderExternal`                                       |
-| `ordered_class_elements`                 | custom + `alpha`                            | Elementy klasy w określonej kolejności: stałe, właściwości, konstruktor, destruktor, metody magiczne, metody zwyczajne; metody PHPUnit dla testów; wewnątrz grup widoczności alfabetycznie || `phpdoc_align`                           | `'left'`                                    | Adnotacje PHPDoc wyrównane do lewej                                                                                                                                                                                        |
+| `ordered_class_elements`                 | custom + `alpha`                            | Elementy klasy w określonej kolejności: stałe, właściwości, konstruktor, destruktor, metody magiczne, metody zwyczajne; metody PHPUnit dla testów; wewnątrz grup widoczności alfabetycznie |
+| `php_unit_test_class_requires_covers`    | `false`                                     | Wyłącza wymóg atrybutu `#[CoversClass]` / adnotacji `@covers` dla klas testowych PHPUnit                                                                                                   |
+| `phpdoc_align`                           | `'left'`                                    | Adnotacje PHPDoc wyrównane do lewej                                                                                                                                                        |
 | `strict_comparison`                      | `true`                                      | Zamienia `==` i `!=` na `===` i `!==`                                                                                                                                                      |
 | `strict_param`                           | `true`                                      | Wymusza tryb strict w funkcjach takich jak `in_array`                                                                                                                                      |
 | `yoda_style`                             | `false`                                     | Naturalna kolejność porównań, bez stylu yoda                                                                                                                                               |
+
 ### Dostosowanie
 
 **Dodawanie i nadpisywanie** - klucz podany po rozwinięciu ma pierwszeństwo nad presetem:
@@ -432,6 +437,9 @@ return RectorConfig::configure()
     ->withComposerBased(
         ...Preset::getComposerBased(),     // zestawy aktywowane na podstawie composer.json
     )
+    ->withRules([
+        ...Preset::getRules(),             // dodatkowe reguły
+    ])
     ->withAttributesSets(
         ...Preset::getAttributesSets(),    // migracja adnotacji do atrybutów
     )
@@ -451,6 +459,7 @@ Argument `withPhpSets()` odpowiada wersji PHP wybranej podczas konfiguracji (`ph
 | `getPaths($baseDir)`   | Zwraca listę analizowanych katalogów frameworka            |
 | `getSets()`            | Zwraca zestawy reguł Rectora                               |
 | `getComposerBased()`   | Zestawy aktywowane na podstawie pakietów w `composer.json` |
+| `getRules()`           | Zwraca dodatkowe pojedyncze reguły Rectora                 |
 | `getAttributesSets()`  | Zestawy migracji adnotacji do atrybutów                    |
 | `getsSkip()`           | Reguły wyłączone z analizy                                 |
 
@@ -465,11 +474,18 @@ Argument `withPhpSets()` odpowiada wersji PHP wybranej podczas konfiguracji (`ph
 | `SetList::PRIVATIZATION`    | Zawężanie widoczności elementów klas               |
 | `SetList::CODING_STYLE`     | Reguły stylistyczne                                |
 
+**Dodatkowe reguły**
+
+| Reguła                          | Opis                                                                        |
+|---------------------------------|-----------------------------------------------------------------------------|
+| `RenamePropertyToMatchTypeRector` | Zmienia nazwy właściwości klasy, aby odpowiadały zadeklarowanemu typowi     |
+
 **Wyłączone**
 
-| Reguła                                            | Opis                                                        |
-|---------------------------------------------------|-------------------------------------------------------------|
-| `ClassPropertyAssignToConstructorPromotionRector` | Automatyczna promocja właściwości do konstruktora wyłączona |
+| Reguła                                           | Opis                                                                                    |
+|--------------------------------------------------|-----------------------------------------------------------------------------------------|
+| `ClassPropertyAssignToConstructorPromotionRector` | Automatyczna promocja właściwości do konstruktora wyłączona                             |
+| `NewlineBetweenClassLikeStmtsRector`             | Automatyczne wstawianie pustych linii między elementami klasy (obsługuje PHP CS Fixer) |
 
 ### Dostosowanie
 
