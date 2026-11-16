@@ -1,7 +1,7 @@
 {
   "name": "kgabryel/code-quality",
   "description": "Współdzielona konfiguracja dla narzędzi do utrzymania jakości kodu",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "type": "library",
   "license": "MIT",
   "autoload": {

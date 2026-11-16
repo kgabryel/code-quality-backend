@@ -437,9 +437,6 @@ return RectorConfig::configure()
     ->withComposerBased(
         ...Preset::getComposerBased(),     // zestawy aktywowane na podstawie composer.json
     )
-    ->withRules([
-        ...Preset::getRules(),             // dodatkowe reguły
-    ])
     ->withAttributesSets(
         ...Preset::getAttributesSets(),    // migracja adnotacji do atrybutów
     )
@@ -459,7 +456,6 @@ Argument `withPhpSets()` odpowiada wersji PHP wybranej podczas konfiguracji (`ph
 | `getPaths($baseDir)`   | Zwraca listę analizowanych katalogów frameworka            |
 | `getSets()`            | Zwraca zestawy reguł Rectora                               |
 | `getComposerBased()`   | Zestawy aktywowane na podstawie pakietów w `composer.json` |
-| `getRules()`           | Zwraca dodatkowe pojedyncze reguły Rectora                 |
 | `getAttributesSets()`  | Zestawy migracji adnotacji do atrybutów                    |
 | `getsSkip()`           | Reguły wyłączone z analizy                                 |
 
@@ -473,12 +469,6 @@ Argument `withPhpSets()` odpowiada wersji PHP wybranej podczas konfiguracji (`ph
 | `SetList::EARLY_RETURN`     | Zamiana zagnieżdżonych warunków na wczesne returny |
 | `SetList::PRIVATIZATION`    | Zawężanie widoczności elementów klas               |
 | `SetList::CODING_STYLE`     | Reguły stylistyczne                                |
-
-**Dodatkowe reguły**
-
-| Reguła                          | Opis                                                                        |
-|---------------------------------|-----------------------------------------------------------------------------|
-| `RenamePropertyToMatchTypeRector` | Zmienia nazwy właściwości klasy, aby odpowiadały zadeklarowanemu typowi     |
 
 **Wyłączone**
 
